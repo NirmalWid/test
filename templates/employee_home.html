@@ -1,0 +1,280 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Time Entry</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #007bff;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        input[type="date"],
+        input[type="time"] {
+            margin-bottom: 20px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table th,
+        table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        table th {
+            background-color: #007bff;
+            color: white;
+        }
+        .delete-button {
+            background-color: #dc3545; /* Bootstrap danger color */
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .delete-button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome, {{ session['name'] }}!</h2>
+        <form method="POST" action="/employee/home">
+            <label for="date">Date:</label>
+            <input type="date" name="date" id="date" required>
+
+            <label for="start_time">Start Time:</label>
+            <input type="time" name="start_time" id="start_time" required>
+
+            <label for="end_time">End Time:</label>
+            <input type="time" name="end_time" id="end_time" required>
+
+            <button type="submit">Submit Time</button>
+        </form>
+
+        <br>
+
+        <h3>Submitted Time Entries</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Hours Worked</th>
+                    <th>Approval Status</th> 
+                    <th>Action</th> 
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in time_entries %}
+                <tr>
+                    <td>{{ entry.date }}</td>
+                    <td>{{ entry.start_time }}</td>
+                    <td>{{ entry.end_time }}</td>
+                    <td>{{ entry.hours_worked }}</td>
+                    <td>{{ entry.status }} </td>
+                    <td>
+                        {% if entry.status == 'pending' %} 
+                        <form method="POST" action="{{ url_for('delete_time_entry', entry_id=entry.id) }}">
+                            <button type="submit" class="delete-button">Delete</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Time Entry</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #007bff;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        input[type="date"],
+        input[type="time"] {
+            margin-bottom: 20px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table th,
+        table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        table th {
+            background-color: #007bff;
+            color: white;
+        }
+        .delete-button {
+            background-color: #dc3545; /* Bootstrap danger color */
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .delete-button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome, {{ session['name'] }}!</h2>
+        <form method="POST" action="/employee/home">
+            <label for="date">Date:</label>
+            <input type="date" name="date" id="date" required>
+
+            <label for="start_time">Start Time:</label>
+            <input type="time" name="start_time" id="start_time" required>
+
+            <label for="end_time">End Time:</label>
+            <input type="time" name="end_time" id="end_time" required>
+
+            <button type="submit">Submit Time</button>
+        </form>
+
+        <br>
+
+        <h3>Submitted Time Entries</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Hours Worked</th>
+                    <th>Approval Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in time_entries %}
+                <tr>
+                    <td>{{ entry.date }}</td>
+                    <td>{{ entry.start_time }}</td>
+                    <td>{{ entry.end_time }}</td>
+                    <td>{{ entry.hours_worked }}</td>
+                    <td>{{ entry.status }}</td>
+                    <td>
+                        {% if entry.status == 'pending' %}
+                        <form method="POST" action="{{ url_for('delete_time_entry', entry_id=entry.id) }}">
+                            <button type="submit" class="delete-button">Delete</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
